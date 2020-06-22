@@ -1,3 +1,3 @@
 export default {
-  API_ENDPOINT: 'http://localhost:8080/api' // Your server base url here
+  API_ENDPOINT: 'https://mynotes-d08a7.firebaseio.com' // Your server base url here
 };

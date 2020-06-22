@@ -1,25 +1,46 @@
 import React from 'react';
-import Service from '../../services/Service';
+import NoteService from '../../services/NoteService';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      data: []
+      notes: []
     };
   }
 
   componentDidMount() {
-    Service.list().then(data => this.setState({ data }));
+    NoteService.list().then(data => {
+      console.log(data)
+      this.setState({ notes: this.formatNotes(data) })
+    });
+  }
+
+  formatNotes(notes){
+    const formattedNotes = [];
+    for (const [key, value] of Object.entries(notes)) {
+      value.id = key;
+      formattedNotes.push(value);
+    }
+    return formattedNotes;
   }
 
   render() {
+    const { notes } = this.state;
     return (
-      <div className="home">
-        <h1>Latte</h1>
-        <h5>A React boilerplate</h5>
-      </div>
+      <div className="container">
+      <h1>My Notes</h1>
+      <ul className="list-group">
+        {notes.map(note => <li key={note.id} className="list-group-item">
+        <div className="d-flex w-100">
+          <h5>{note.title}</h5>
+        </div>
+    <div>{ note.description}</div>
+        </li>
+        )}
+      </ul>
+    </div>
     );
   }
 }
